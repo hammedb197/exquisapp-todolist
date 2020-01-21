@@ -1,0 +1,27 @@
+
+
+<div>
+    <form action="/add_task" method="post">
+        <p><input type="text" name="content" required></p>
+        <input type="submit" value="Add task">
+    </form>
+</div>
+<div>
+</div>
+<ul>
+    {% for task in tasks %}
+    <li>
+        {{ task.content }} 
+        <a href="/"><p></p></a>
+        <a href="/delete/{{ task.id }}">Delete</a>
+        <a href="/update/{{ task.id }}">Update</a>
+    
+    </li>
+    {% endfor %}
+    
+</ul>
+
+
+    
+    
+    

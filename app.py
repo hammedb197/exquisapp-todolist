@@ -12,11 +12,9 @@ db = SQLAlchemy(app)
 class Todo(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     content = db.Column(db.Text)
-    done = db.Column(db.Boolean, default=False)
 
     def __init__(self, content):
         self.content = content
-        self.done = False
 
     def __repr__(self):
         return 'Content {}'.format(self.content)
@@ -26,15 +24,15 @@ db.create_all()
 
 @app.route('/')
 def tasks_list():
-    todos = Todo.query.all()
-    return render_template('todo_list.html', tasks=todos)
+    tasks = Todo.query.all()
+    return render_template('todo_list.html', tasks=tasks)
 
 
 @app.route('/add_task', methods=['POST'])
 def add_task():
     content = request.form['content']
     if not content:
-        return 'Error adding'
+        return 'No content added, reload the page'
 
     todos = Todo(content)
     db.session.add(todos)
@@ -51,6 +49,8 @@ def delete_task(task_id):
     db.session.delete(todos)
     db.session.commit()
     return redirect('/')
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)
